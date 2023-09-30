@@ -6,7 +6,9 @@ Install packages
 npm install
 ```
 
-Update '.env' according to your needs.
+&nbspn;
+
+Update `.env` according to your needs.
 
 The entrypoint is on `index.js`
 ```
