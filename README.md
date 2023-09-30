@@ -10,7 +10,7 @@ Install packages
 npm install
 ```
 
-&nbspn;
+&nbsp;
 
 Update `.env` according to your needs.
 
