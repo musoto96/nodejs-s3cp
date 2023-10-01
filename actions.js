@@ -32,25 +32,36 @@ async function copyObjectsWithDelay(objects, dstClient, dstInput) {
 
     // Iterate through objects
     for (const obj of objects.Contents || []) {
-      const srcKey = obj.Key;
 
-      if (srcKey !== objects.Prefix) {
+      if (obj.Key !== objects.Prefix) {
 
-        dstInput.Key = srcKey;
-        dstInput.CopySource = `${objects.Name}/${srcKey}`;
+        //dstInput.Key = obj.Key;
+        //dstInput.CopySource = `${objects.Name}/${obj.Key}`;
+        //dstInput.CopySourceIfNoneMatch = obj.ETag;
+
+        Object.assign(dstInput, {
+          Key: obj.Key,
+          CopySource: `${objects.Name}/${obj.Key}`,
+          CopySourceIfNoneMatch: obj.ETag,
+        });
 
         const copyObject = new CopyObjectCommand(dstInput);
+        try {
+          const copyResult = await dstClient.send(copyObject);
+          console.log(`Object ${obj.Key} copied`);
+          console.log(copyResult);
 
-        await dstClient.send(copyObject);
-        console.log(`Object ${obj.Key} copied`);
+          // Wait n seconds
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        } catch (PreconditionFailed) {
+          console.log(`Object ${obj.Key} already exists, skipping.`);
+        }
 
-        // Wait n seconds
-        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     }
     console.log('Objects copied successfully');
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Copy error:', error);
   }
 }
 
