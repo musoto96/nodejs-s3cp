@@ -3,6 +3,13 @@ const {
   ListObjectsV2Command, 
 } = require("@aws-sdk/client-s3");
 
+// 
+// Returns a list of objects from an input S3 bucket.
+//   See .env variables:
+//     SRCBUCKET  -  Source bucket
+//     SRCREGION  -  Source bucket region
+//     SRCPREFIX  -  Source bucket prefix e.g. photos/cats
+// 
 async function listAll(client, input) {
   try {
     console.log('Fetching object list');
@@ -13,6 +20,12 @@ async function listAll(client, input) {
   }
 }
 
+// 
+// Copies the supplied objects to a destination bucket
+//   See .env variables:
+//     DSTBUCKET  -  Destination bucket
+//     DSTREGION  -  Destination bucket region
+// 
 async function copyObjectsWithDelay(objects, dstClient, dstInput) {
   try {
     console.log(`Objects fetched: ${objects.Contents.length}`);

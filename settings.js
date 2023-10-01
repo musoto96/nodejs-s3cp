@@ -2,12 +2,19 @@ const { S3Client } = require("@aws-sdk/client-s3");
 const { fromIni } = require("@aws-sdk/credential-providers");
 require('dotenv').config();
 
+//
+// This file is intended to handle environment variables
+//   and create objects to be passed to the functions inside
+//   actions.js file.
+//
+
 const config = {
   credentials: fromIni({profile: 'default'})
 };
 
 const srcRegion = process.env.SRCREGION;
 const dstRegion = process.env.DSTREGION;
+const keyOffset = process.env.KEYOFFSET;
 
 const srcInput = {
   Bucket: process.env.SRCBUCKET,
@@ -15,6 +22,9 @@ const srcInput = {
   Prefix: process.env.SRCPREFIX,
   RequestPayer: process.env.REQUESTPAYER,
 };
+
+// If keyOffset is truthy, pass it to srcInput
+if (keyOffset) srcInput.StartAfter = keyOffset;
 
 const dstInput = {
   Bucket: process.env.DSTBUCKET,
