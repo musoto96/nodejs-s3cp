@@ -39,11 +39,18 @@ async function listAll(client, input, logPath, retryWait=5000) {
     try {
       console.log('Fetching object list');
       objects = await client.send(new ListObjectsV2Command(input));
-      console.log(`Objects fetched: ${objects.Contents.length}`);
+
+      // Check if contents are empty
+      if (objects.Contents && objects.Contents.length > 0) {
+        console.log(`Objects fetched: ${objects.Contents.length}`);
+      } else {
+        console.log('No new objects were found');
+        objects.Contents = [];
+      }
       return objects;
     } catch (error) {
       console.error('Error fetching:', error);
-      console.error(`Rerying in ${retryWait / 1000}s`);
+      console.log(`Rerying in ${retryWait / 1000}s`);
       await new Promise((resolve) => setTimeout(resolve, retryWait));
     }
   }
