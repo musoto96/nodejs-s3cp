@@ -15,6 +15,7 @@ const config = {
 const srcRegion = process.env.SRCREGION;
 const dstRegion = process.env.DSTREGION;
 const keyOffset = process.env.KEYOFFSET;
+const logPath = process.env.LOGPATH;
 
 const srcInput = {
   Bucket: process.env.SRCBUCKET,
@@ -23,7 +24,7 @@ const srcInput = {
   RequestPayer: process.env.REQUESTPAYER,
 };
 
-// If keyOffset is truthy, pass it to srcInput
+// If there is offset pass it to srcInput
 if (keyOffset) srcInput.StartAfter = keyOffset;
 
 const dstInput = {
@@ -33,4 +34,4 @@ const dstInput = {
 const srcS3 = new S3Client({ region: srcRegion, ...config });
 const dstS3 = new S3Client({ region: dstRegion, ...config });
 
-module.exports = { srcInput, dstInput, srcS3, dstS3 };
+module.exports = { srcInput, dstInput, srcS3, dstS3, logPath };

@@ -1,0 +1,9 @@
+version: "3.3"
+
+services:
+  s3cp:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes: 
+     - ./log:/s3cp/log

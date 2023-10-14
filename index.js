@@ -1,5 +1,5 @@
 const { listAll, copyObjectsWithDelay } = require("./actions.js");
-const { srcInput, dstInput, srcS3, dstS3 } = require("./settings.js");
+const { srcInput, dstInput, srcS3, dstS3, logPath } = require("./settings.js");
 
 //
 // This function will iterate on a source bucket untill all items
@@ -13,8 +13,8 @@ async function mirror() {
   try {
     // Stay in loop while there are items to be fetched.
     while (true) {
-      const objects = await listAll(srcS3, srcInput);
-      await copyObjectsWithDelay(objects, dstS3, dstInput);
+      const objects = await listAll(srcS3, srcInput, logPath);
+      await copyObjectsWithDelay(objects, dstS3, dstInput, logPath);
 
       // If the there more keys to be fetched
       //   use the last key of the last object fetched as starting point,

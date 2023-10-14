@@ -4,8 +4,7 @@
 The script will copy an entire bucket contents to another bucket. 
 &nbsp;
 
-If you want to use the `Dockerfile` copy your .aws to the repository directory or the build 
-command will fail.
+If you want to use the `Dockerfile` copy your .aws to the repository directory.
 
 &nbsp;
 
